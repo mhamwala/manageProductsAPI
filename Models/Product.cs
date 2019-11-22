@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace manageProducts.Models
 {
-    public class Product
+    public class product
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public int Stock { get; set; }
-        public double Price { get; set; }
+        public double price { get; set; }
+        public int stock { get; set; }
     }
 }

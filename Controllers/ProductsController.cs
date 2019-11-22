@@ -11,27 +11,27 @@ namespace manageProducts.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class productsController : ControllerBase
     {
-        private readonly ProductContext _context;
+        private readonly productsContext _context;
 
-        public ProductsController(ProductContext context)
+        public productsController(productsContext context)
         {
             _context = context;
         }
 
-        // GET: api/Products
+        // GET: api/products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<product>>> Getproduct()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.product.ToListAsync();
         }
 
-        // GET: api/Products/5
+        // GET: api/products/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(long id)
+        public async Task<ActionResult<product>> Getproduct(long id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.product.FindAsync(id);
 
             if (product == null)
             {
@@ -41,11 +41,9 @@ namespace manageProducts.Controllers
             return product;
         }
 
-        // PUT: api/Products/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // PUT: api/products/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(long id, Product product)
+        public async Task<IActionResult> Putproduct(long id, product product)
         {
             if (id != product.Id)
             {
@@ -60,7 +58,7 @@ namespace manageProducts.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(id))
+                if (!productExists(id))
                 {
                     return NotFound();
                 }
@@ -73,37 +71,35 @@ namespace manageProducts.Controllers
             return NoContent();
         }
 
-        // POST: api/Products
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // POST: api/products
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<product>> Postproduct(product product)
         {
-            _context.Products.Add(product);
+            _context.product.Add(product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+            return CreatedAtAction("Getproduct", new { id = product.Id }, product);
         }
 
-        // DELETE: api/Products/5
+        // DELETE: api/products/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Product>> DeleteProduct(long id)
+        public async Task<ActionResult<product>> Deleteproduct(long id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.product.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            _context.Products.Remove(product);
+            _context.product.Remove(product);
             await _context.SaveChangesAsync();
 
             return product;
         }
 
-        private bool ProductExists(long id)
+        private bool productExists(long id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.product.Any(e => e.Id == id);
         }
     }
 }

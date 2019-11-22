@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using manageProducts.Models;
 using Microsoft.EntityFrameworkCore;
+using manageProducts.Models;
 
 namespace manageProducts
 {
@@ -27,8 +20,10 @@ namespace manageProducts
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ProductContext>(opt => opt.UseInMemoryDatabase("ProductList"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddDbContext<productsContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("productsContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
