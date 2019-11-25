@@ -10,7 +10,6 @@ using manageProducts.Models;
 
 namespace manageProducts.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class reviewsController : ControllerBase
     {
@@ -22,14 +21,14 @@ namespace manageProducts.Controllers
         }
 
         // GET: api/reviews
-        [HttpGet]
+        [HttpGet("api/reviews")]
         public async Task<ActionResult<IEnumerable<review>>> Getreview()
         {
             return await _context.review.ToListAsync();
         }
 
         // GET: api/reviews/5
-        [HttpGet("{id}")]
+        [HttpGet("api/reviews/{id}")]
         public async Task<ActionResult<review>> Getreview(long id)
         {
             var review = await _context.review.FindAsync(id);
@@ -43,7 +42,7 @@ namespace manageProducts.Controllers
         }
 
         // PUT: api/reviews/5
-        [HttpPut("{id}")]
+        [HttpPut("api/reviews/{id}")]
         public async Task<IActionResult> Putreview(long id, review review)
         {
             if (id != review.Id)
@@ -73,7 +72,7 @@ namespace manageProducts.Controllers
         }
 
         // POST: api/reviews
-        [HttpPost]
+        [HttpPost("api/reviews")]
         public async Task<ActionResult<review>> Postreview(review review)
         {
             _context.review.Add(review);
@@ -83,7 +82,7 @@ namespace manageProducts.Controllers
         }
 
         // DELETE: api/reviews/5
-        [HttpDelete("{id}")]
+        [HttpDelete("api/reviews/{id}")]
         public async Task<ActionResult<review>> Deletereview(long id)
         {
             var review = await _context.review.FindAsync(id);
@@ -101,6 +100,24 @@ namespace manageProducts.Controllers
         private bool reviewExists(long id)
         {
             return _context.review.Any(e => e.Id == id);
+        }
+
+        // GET: api/reviews/CUID
+        [HttpGet("api/reviews/CUID/{id}")]
+        public async Task<ActionResult<IEnumerable<review>>> GetreviewByCustomerID(int id)
+        {
+            var customerReviews = await _context.review.Where(r => r.customerID == id)
+                                     .Select(r => new review
+                                     {
+                                         Id = r.Id,
+                                         customerID = r.customerID,
+                                         productID = r.productID,
+                                         Rating = r.Rating,
+                                         comments = r.comments,
+                                         visible = r.visible
+                                     }).ToListAsync();
+
+            return customerReviews;
         }
     }
 }
