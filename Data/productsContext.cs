@@ -8,10 +8,7 @@ namespace manageProducts.Models
 {
     public class productsContext : DbContext
     {
-        public productsContext (DbContextOptions<productsContext> options)
-            : base(options)
-        {
-        }
+        public productsContext (DbContextOptions<productsContext> options): base(options){  }
         public DbSet<manageProducts.Models.product> product { get; set; }
     }
 }

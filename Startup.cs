@@ -1,10 +1,11 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using manageProducts.Models;
+using manageProducts.Data;
 
 namespace manageProducts
 {
@@ -24,6 +25,9 @@ namespace manageProducts
 
             services.AddDbContext<productsContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("productsContext")));
+
+            services.AddDbContext<reviewsContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("reviewsContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

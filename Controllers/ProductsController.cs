@@ -9,7 +9,6 @@ using manageProducts.Models;
 
 namespace manageProducts.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class productsController : ControllerBase
     {
@@ -21,14 +20,14 @@ namespace manageProducts.Controllers
         }
 
         // GET: api/products
-        [HttpGet]
+        [HttpGet("api/Products")]
         public async Task<ActionResult<IEnumerable<product>>> Getproduct()
         {
             return await _context.product.ToListAsync();
         }
 
         // GET: api/products/5
-        [HttpGet("{id}")]
+        [HttpGet("api/Products/{id}")]
         public async Task<ActionResult<product>> Getproduct(long id)
         {
             var product = await _context.product.FindAsync(id);
@@ -41,8 +40,24 @@ namespace manageProducts.Controllers
             return product;
         }
 
+        // GET: api/products/lowStock
+        [HttpGet("api/Products/lowStock")]
+        public async Task<ActionResult<IEnumerable<product>>> GetStockLevel()
+        {
+            var lowStock = await _context.product.Where(p => p.stock <= 5)
+                                       .Select(p => new product
+                                       {
+                                           Id = p.Id,
+                                           Name = p.Name,
+                                           price = p.price,
+                                           stock = p.stock
+                                       }).ToListAsync();
+
+            return lowStock;
+        }
+
         // PUT: api/products/5
-        [HttpPut("{id}")]
+        [HttpPut("api/Products/{id}")]
         public async Task<IActionResult> Putproduct(long id, product product)
         {
             if (id != product.Id)
@@ -72,7 +87,7 @@ namespace manageProducts.Controllers
         }
 
         // POST: api/products
-        [HttpPost]
+        [HttpPost("api/Products")]
         public async Task<ActionResult<product>> Postproduct(product product)
         {
             _context.product.Add(product);
@@ -82,7 +97,7 @@ namespace manageProducts.Controllers
         }
 
         // DELETE: api/products/5
-        [HttpDelete("{id}")]
+        [HttpDelete("api/Products/{id}")]
         public async Task<ActionResult<product>> Deleteproduct(long id)
         {
             var product = await _context.product.FindAsync(id);
