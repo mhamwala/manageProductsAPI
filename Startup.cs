@@ -28,6 +28,10 @@ namespace manageProducts
 
             services.AddDbContext<reviewsContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("reviewsContext")));
+
+            services.AddDbContext<productsHistoryContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("productsHistoryContext")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
